@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>滑动页面阅读漫画SVG</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 进度指示器（页码） -->
+  <div class="progress-indicator">
+    <span class="current-page">1</span> / <span class="total-pages">15</span>
+  </div>
+
+  <!-- 进度条 -->
+  <div class="progress-bar-container">
+    <div class="progress-bar-fill"></div>
+  </div>
+
+  <!-- SVG容器 -->
+  <div class="svg-container">
+    <div class="svg-wrapper" id="svgWrapper">
+      <div class="loading">加载中...</div>
+    </div>
+  </div>
+
+  <!-- 虚拟滚动区域 -->
+  <div class="scroll-container" id="scrollContainer">
+    <div class="scroll-content"></div>
+  </div>
+
+  <!-- 直接引入anime.js -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>

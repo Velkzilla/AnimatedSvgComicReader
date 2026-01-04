@@ -1,0 +1,151 @@
+/* 重置和基础样式 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 页面固定，禁用滚动 */
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* 禁用页面滚动 */
+  background: #ffffff; /* 白色背景 */
+  height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+}
+
+/* 固定SVG视口 */
+.svg-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  pointer-events: none; /* 让SVG容器不拦截滚轮事件 */
+}
+
+/* SVG包装器 */
+.svg-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  pointer-events: none; /* SVG包装器也不拦截事件 */
+}
+
+/* SVG响应式尺寸 */
+.svg-wrapper svg {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  display: block;
+  aspect-ratio: 2 / 3; /* 保持1280:1920比例 */
+  pointer-events: none; /* SVG本身也不拦截事件 */
+}
+
+/* 加载状态 */
+.loading {
+  color: black;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+body.loaded .loading {
+  display: none;
+}
+
+/* 进度指示器 */
+.progress-indicator {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: bold;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  user-select: none;
+}
+
+/* 移动端响应式 */
+@media (max-width: 768px) {
+  .svg-wrapper {
+    padding: 1rem;
+  }
+
+  .progress-indicator {
+    top: 1rem;
+    right: 1rem;
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+/* SVG图层性能优化 */
+svg g[inkscape\:label] {
+  will-change: opacity;
+  /* 不要使用 transform，会导致SVG图层错位 */
+}
+
+/* === 虚拟滚动容器（核心） === */
+.scroll-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 10; /* 在SVG容器上层，接收滚轮事件 */
+  -webkit-overflow-scrolling: touch; /* iOS平滑滚动 */
+}
+
+.scroll-content {
+  width: 100%;
+  height: 1600vh; /* 15层 × 100vh + 100vh缓冲 */
+  background: transparent;
+  pointer-events: none; /* 内容不响应鼠标 */
+}
+
+/* === 进度条 === */
+.progress-bar-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.1);
+  z-index: 101;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  transition: width 0.1s ease-out;
+}
+
+/* === 图层初始状态 === */
+/* 注意：这个规则会在JS中动态设置，避免在CSS中全局设置导致所有图层不可见 */
+/* svg g[inkscape\:label^="0"] {
+  opacity: 0;
+  transform: translateZ(0);
+} */
+
+/* === 移动端适配（进度条） === */
+@media (max-width: 768px) {
+  .progress-bar-container {
+    height: 3px;
+  }
+}
