@@ -13,4 +13,5 @@ https://velkzilla.github.io/AnimatedSvgComicReader/
 ## Credits
 
 - 原作漫画：[daaon]()
+- 翻译：[ZX]()
 - SVG 重绘与前端开发：[Velk](https://github.com/velkzilla)
